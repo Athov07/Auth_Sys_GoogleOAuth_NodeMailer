@@ -29,19 +29,30 @@ router.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
+
 // Google callback route
 router.get(
   "/google/callback",
   passport.authenticate("google", { session: false }),
-  async (req, res) => {
-    const user = req.user;
+  async (req, res, next) => {
+    try {
+      const user = req.user;
 
-    // 🔥 Always generate token
-    const { accessToken } = generateTokens(user);
+      const { accessToken, refreshToken } = generateTokens(user);
 
-    res.redirect(
-      `http://localhost:5173/oauth-success?token=${accessToken}`
-    );
+      // Save refresh token in DB
+      user.refreshToken = refreshToken;
+      await user.save();
+
+      // Encode tokens safely for URL
+      const redirectUrl = `http://localhost:5173/oauth-success?accessToken=${encodeURIComponent(
+        accessToken
+      )}&refreshToken=${encodeURIComponent(refreshToken)}`;
+
+      res.redirect(redirectUrl);
+    } catch (err) {
+      next(err);
+    }
   }
 );
 

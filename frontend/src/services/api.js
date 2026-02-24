@@ -57,10 +57,13 @@ const authService = {
     return await API.get("/protected/dashboard");
   },
 
-  // LOGOUT
-  logout: async () => {
-    return await API.post("/auth/logout");
-  },
+// LOGOUT
+logout: async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) throw new Error("No refresh token found");
+
+  return await API.post("/auth/logout", { token: refreshToken });
+},
 
   // GOOGLE LOGIN → backend redirect
   googleLogin: () => {

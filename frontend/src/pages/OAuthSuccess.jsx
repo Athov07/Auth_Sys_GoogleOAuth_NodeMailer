@@ -1,37 +1,44 @@
-import React, { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Card from "../components/Card";
+import authService from "../services/api";
+import { AuthContext } from "../context/AuthContext";
 
 export default function OAuthSuccess() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useContext(AuthContext);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const token = queryParams.get("token");
+    const accessToken = queryParams.get("accessToken"); // must match backend
+    const refreshToken = queryParams.get("refreshToken");
 
-    if (token) {
-      // Store access token
-      localStorage.setItem("accessToken", token);
-
-      // Redirect to profile page
-      navigate("/profile");
-    } else {
-      // If no token found, go back to login
+    if (!accessToken) {
       navigate("/login");
+      return;
     }
-  }, [location, navigate]);
+
+    // Save tokens safely
+    localStorage.setItem("accessToken", accessToken);
+    if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+
+    // Fetch profile using the access token
+    authService
+      .getProfile(accessToken)
+      .then((res) => {
+        const user = res.data.user;
+        login(user, accessToken);
+        navigate("/profile");
+      })
+      .catch((err) => {
+        console.error("Failed to fetch profile:", err);
+        navigate("/login");
+      });
+  }, [location, navigate, login]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md p-6 text-center">
-        <h2 className="text-xl font-semibold mb-2">
-          Signing you in...
-        </h2>
-        <p className="text-gray-500 text-sm">
-          Please wait while we complete your Google login.
-        </p>
-      </Card>
+    <div className="flex items-center justify-center min-h-screen">
+      <p className="text-lg font-medium">Logging you in...</p>
     </div>
   );
 }

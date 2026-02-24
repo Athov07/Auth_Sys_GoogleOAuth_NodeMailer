@@ -158,11 +158,18 @@ export const login = async (req, res, next) => {
 
     const { accessToken, refreshToken } = generateTokens(user);
 
+    // Save refresh token in DB
     user.refreshToken = refreshToken;
     await user.save();
 
+    // Send user info along with tokens
     res.status(200).json({
       success: true,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
       accessToken,
       refreshToken,
     });

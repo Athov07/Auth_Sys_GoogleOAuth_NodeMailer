@@ -1,8 +1,22 @@
+import authService from "../services/api";
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout} = useContext(AuthContext);
+
+ const handleLogout = async () => {
+  try {
+    await authService.logout();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+    setUser(null); // update context
+  } catch (err) {
+    console.error("Logout failed", err);
+  }
+};
+
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md px-6 py-4 flex justify-between items-center">
@@ -11,7 +25,7 @@ export default function Navbar() {
         {user ? (
           <>
             <span className="mr-4">Hi, {user.name}</span>
-            <button className="btn-primary px-4 py-1" onClick={logout}>Logout</button>
+            <button className="btn-primary px-4 py-1" onClick={handleLogout}>Logout</button>
           </>
         ) : (
           <>

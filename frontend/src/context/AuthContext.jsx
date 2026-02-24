@@ -7,31 +7,37 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+useEffect(() => {
+  const token = localStorage.getItem("accessToken");
+  const storedUser = JSON.parse(localStorage.getItem("user"));
 
-    if (token) {
-      authService
-        .getProfile()
-        .then((res) => {
-          setUser(res.data);
-          localStorage.setItem("user", JSON.stringify(res.data));
-        })
-        .catch(() => {
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("user");
-          setUser(null);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
-  }, []);
+  if (storedUser) {
+    setUser(storedUser);
+    setLoading(false);
+    return;
+  }
 
-  const login = (userData, accessToken) => {
+  if (token) {
+    authService.getProfile()
+      .then((res) => {
+        const profileUser = res.data.user; // use res.data.user
+        setUser(profileUser);
+        localStorage.setItem("user", JSON.stringify(profileUser));
+      })
+      .catch(() => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+        setUser(null);
+      })
+      .finally(() => setLoading(false));
+  } else {
+    setLoading(false);
+  }
+}, []);
+
+  const login = (userData, accessToken, refreshToken) => {
     localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken); 
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
   };

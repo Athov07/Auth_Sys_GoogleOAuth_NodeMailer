@@ -138,7 +138,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center pt-20 bg-gray-100">
       <Card className="w-full max-w-md p-6">
         <h1 className="text-2xl font-bold text-center mb-4">Register</h1>
 
@@ -203,14 +203,14 @@ export default function RegisterPage() {
             />
 
             <div className="flex justify-between items-center mb-4">
-              <button
+              <Button
                 type="button"
                 onClick={handleResendOtp}
-                className="text-sm text-blue-600 hover:underline"
+                className="w-full text-sm text-blue-600 hover:bg-blue-500"
                 disabled={loading}
               >
                 Resend OTP
-              </button>
+              </Button>
             </div>
 
             <Button
