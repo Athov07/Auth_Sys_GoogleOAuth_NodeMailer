@@ -32,18 +32,17 @@ router.get(
 // Google callback route
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login-failed", session: false }),
+  passport.authenticate("google", { session: false }),
   async (req, res) => {
-    const { accessToken, refreshToken } = generateTokens(req.user);
-    req.user.refreshToken = refreshToken;
-    await req.user.save();
+    const user = req.user;
 
-    res.json({
-      success: true,
-      accessToken,
-      refreshToken,
-    });
+    // 🔥 Always generate token
+    const { accessToken } = generateTokens(user);
+
+    res.redirect(
+      `http://localhost:5173/oauth-success?token=${accessToken}`
+    );
   }
 );
 
-export default router;   // ✅ MUST BE DEFAULT EXPORT
+export default router;   // MUST BE DEFAULT EXPORT
