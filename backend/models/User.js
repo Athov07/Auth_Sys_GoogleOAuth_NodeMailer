@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Optional: Add index for faster role queries
-userSchema.index({ role: 1 });
+// Optional: compound index example (if needed)
+userSchema.index({ email: 1, role: 1 }); // speeds up queries filtering by email + role
 
 export default mongoose.model("User", userSchema);

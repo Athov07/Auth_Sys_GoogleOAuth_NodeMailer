@@ -5,6 +5,7 @@ const otpSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      index: true
     },
     otp: {
       type: String,
@@ -13,6 +14,7 @@ const otpSchema = new mongoose.Schema(
     expiresAt: {
       type: Date,
       required: true,
+      index: { expireAfterSeconds: 0 }
     },
   },
   { timestamps: true }
