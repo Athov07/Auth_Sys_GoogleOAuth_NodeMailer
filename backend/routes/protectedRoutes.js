@@ -1,21 +1,13 @@
 import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
 import { authorizeRoles } from "../middleware/roleMiddleware.js";
+import upload from "../middleware/uploadMiddleware.js";
+import { uploadProfileImage, getProfile } from "../controllers/userController.js";
 
 const router = express.Router();
 
 // Any authenticated user
-router.get("/profile", protect, (req, res) => {
-  res.json({
-    success: true,
-    user: {
-      name: req.user.name,
-      email: req.user.email,
-      role: req.user.role,
-    },
-    cached: false, // if using node-cache
-  });
-});
+router.get("/profile", protect, getProfile);
 
 // Only admin
 router.get(
@@ -29,5 +21,15 @@ router.get(
     });
   }
 );
+
+
+router.post(
+  "/upload-profile",
+  protect,
+  upload.single("image"),
+  uploadProfileImage
+);
+
+
 
 export default router;

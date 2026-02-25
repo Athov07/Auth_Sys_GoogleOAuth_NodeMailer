@@ -47,6 +47,7 @@ configurePassport();
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/protected", protectedRoutes); // protected routes
+app.use("/api/user", protectedRoutes);
 
 // Global error handler (must be last)
 app.use(errorHandler);

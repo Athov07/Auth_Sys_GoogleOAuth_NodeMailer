@@ -59,8 +59,8 @@ const handleLogin = async (e) => {
     };
 
   return (
-    <div className="flex items-center justify-center bg-bg pt-10">
-      <Card className="w-full max-w-md">
+    <div className="flex items-center justify-center bg-bg pt-10 ">
+      <Card className="w-full max-w-md ">
         <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
 
         {error && <Alert message={error} />}
@@ -94,9 +94,9 @@ const handleLogin = async (e) => {
 
         <Button
                   onClick={handleGoogleLogin}
-                  className="w-full bg-red-500 hover:bg-red-600 text-white"
-                >
-                  Continue with Google
+                  className="w-full bg-gray-600 hover:bg-gray-400 text-white flex items-center justify-center gap-3"
+                > <img width="28" height="26" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/>
+                    Continue with Google
                 </Button>
       </Card>
     </div>

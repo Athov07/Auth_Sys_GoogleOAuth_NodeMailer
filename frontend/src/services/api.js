@@ -57,17 +57,24 @@ const authService = {
     return await API.get("/protected/dashboard");
   },
 
-// LOGOUT
-logout: async (refreshToken) => {
-  // send refreshToken in request body
-  return await API.post("/auth/logout", { token: refreshToken });
-},
+  // LOGOUT
+  logout: async (refreshToken) => {
+    // send refreshToken in request body
+    return await API.post("/auth/logout", { token: refreshToken });
+  },
 
   // GOOGLE LOGIN → backend redirect
   googleLogin: () => {
     window.location.href = "http://localhost:5000/api/auth/google";
   },
 
+  uploadProfileImage: async (formData) => {
+    return await API.post("/user/upload-profile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };
 
 export default authService;

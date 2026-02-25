@@ -12,8 +12,8 @@ export default function OAuthSuccess() {
     const queryParams = new URLSearchParams(location.search);
     const accessToken = queryParams.get("accessToken");
     const refreshToken = queryParams.get("refreshToken");
-    console.log("accessToken:", queryParams.get("accessToken"));
-    console.log("refreshToken:", queryParams.get("refreshToken"));
+    // console.log("accessToken:", queryParams.get("accessToken"));
+    // console.log("refreshToken:", queryParams.get("refreshToken"));
 
     if (!accessToken) {
       navigate("/login");
@@ -24,7 +24,7 @@ export default function OAuthSuccess() {
     localStorage.setItem("accessToken", accessToken);
     if (refreshToken) {
       localStorage.setItem("refreshToken", refreshToken);
-      console.log("Saved refreshToken:", refreshToken); // debug
+      // console.log("Saved refreshToken:", refreshToken);
     } else {
       console.warn("No refreshToken found in URL!");
     }
