@@ -34,7 +34,7 @@ export default function OAuthSuccess() {
       .getProfile(accessToken)
       .then((res) => {
         const user = res.data.user;
-        login(user, accessToken);
+        login(user, accessToken, refreshToken);
         navigate("/profile");
       })
       .catch((err) => {
