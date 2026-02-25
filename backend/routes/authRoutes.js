@@ -39,12 +39,13 @@ router.get(
       const user = req.user;
 
       const { accessToken, refreshToken } = generateTokens(user);
+      // console.log("Google OAuth tokens:", { accessToken, refreshToken });
 
       // Save refresh token in DB
       user.refreshToken = refreshToken;
       await user.save();
 
-      // Encode tokens safely for URL
+      // Ensure query param names match frontend
       const redirectUrl = `http://localhost:5173/oauth-success?accessToken=${encodeURIComponent(
         accessToken
       )}&refreshToken=${encodeURIComponent(refreshToken)}`;

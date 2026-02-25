@@ -48,6 +48,8 @@ useEffect(() => {
     setUser(null);
   };
 
+  
+
   return (
     <AuthContext.Provider
       value={{

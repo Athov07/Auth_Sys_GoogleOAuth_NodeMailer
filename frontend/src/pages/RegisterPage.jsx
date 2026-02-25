@@ -35,27 +35,30 @@ export default function RegisterPage() {
     return null;
   };
 
-  // ==============================
-  // FULL VALIDATION (FOR REGISTER)
-  // ==============================
-  const validateRegister = () => {
-    const { name, password, confirmPassword, otp } = form;
+// ==============================
+// FULL VALIDATION (FOR REGISTER)
+// ==============================
+const validateRegister = () => {
+  const { name, password, confirmPassword, otp } = form;
 
-    if (!name || !password || !confirmPassword || !otp) {
-      return "All fields are required";
-    }
+  if (!name || !password || !confirmPassword || !otp) {
+    return "All fields are required";
+  }
 
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      return "Password must be alphanumeric and minimum 8 characters";
-    }
+  // Strong password validation
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (password !== confirmPassword) {
-      return "Passwords do not match";
-    }
+  if (!passwordRegex.test(password)) {
+    return "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.";
+  }
 
-    return null;
-  };
+  if (password !== confirmPassword) {
+    return "Passwords do not match";
+  }
+
+  return null;
+};
 
   // ==============================
   // SEND OTP
@@ -206,7 +209,7 @@ export default function RegisterPage() {
               <Button
                 type="button"
                 onClick={handleResendOtp}
-                className="w-full text-sm text-blue-600 hover:bg-blue-500"
+                className="w-full text-sm text-blue-600  bg-red-500 hover:bg-red-600"
                 disabled={loading}
               >
                 Resend OTP

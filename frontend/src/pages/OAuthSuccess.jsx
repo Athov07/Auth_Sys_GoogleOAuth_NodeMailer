@@ -10,19 +10,26 @@ export default function OAuthSuccess() {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const accessToken = queryParams.get("accessToken"); // must match backend
+    const accessToken = queryParams.get("accessToken");
     const refreshToken = queryParams.get("refreshToken");
+    console.log("accessToken:", queryParams.get("accessToken"));
+    console.log("refreshToken:", queryParams.get("refreshToken"));
 
     if (!accessToken) {
       navigate("/login");
       return;
     }
 
-    // Save tokens safely
+    // ave tokens properly
     localStorage.setItem("accessToken", accessToken);
-    if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+    if (refreshToken) {
+      localStorage.setItem("refreshToken", refreshToken);
+      console.log("Saved refreshToken:", refreshToken); // debug
+    } else {
+      console.warn("No refreshToken found in URL!");
+    }
 
-    // Fetch profile using the access token
+    // Fetch user profile
     authService
       .getProfile(accessToken)
       .then((res) => {

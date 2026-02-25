@@ -73,10 +73,12 @@ function App() {
             }
           />
 
-          <Route
+          <Route path="/oauth-success" element={<OAuthSuccess />} />
+
+          {/* <Route
             path="/oauth-success"
             element={<OAuthSuccess setUser={setUser} />}
-          />
+          /> */}
 
           {/* Fallback Route */}
           <Route path="*" element={<Navigate to="/login" />} />

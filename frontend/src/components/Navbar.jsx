@@ -5,17 +5,17 @@ import { AuthContext } from "../context/AuthContext";
 export default function Navbar() {
   const { user, logout} = useContext(AuthContext);
 
- const handleLogout = async () => {
-  try {
-    await authService.logout();
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
-    setUser(null); // update context
-  } catch (err) {
-    console.error("Logout failed", err);
-  }
-};
+const handleLogout = async () => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken"); // ⚠ must pass
+      if (!refreshToken) throw new Error("No refresh token found");
+
+      await authService.logout(refreshToken); // send token to backend
+      logout(); // clear frontend auth state
+    } catch (err) {
+      console.log("Logout failed", err);
+    }
+  };
 
 
   return (

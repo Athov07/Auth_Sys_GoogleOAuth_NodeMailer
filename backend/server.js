@@ -21,7 +21,6 @@ const app = express();
 
 // Core middlewares
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(rateLimiter);

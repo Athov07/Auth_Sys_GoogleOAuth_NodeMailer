@@ -7,22 +7,19 @@ export default function ProfilePage() {
   const { user } = useContext(AuthContext);
   const [profile, setProfile] = useState(user || null);
 
-useEffect(() => {
-  if (user) {
-    setProfile(user); // ✅ user is already in context
-    return;
-  }
-
-  const fetchProfile = async () => {
-    try {
-      const res = await API.get("/protected/profile");
-      setProfile(res.data.user);
-    } catch (err) {
-      console.error(err.response?.data?.message || "Failed to fetch profile");
+  useEffect(() => {
+    if (!user) {
+      const fetchProfile = async () => {
+        try {
+          const res = await API.get("/protected/profile");
+          setProfile(res.data.user || res.data);
+        } catch (err) {
+          console.error(err.response?.data?.message || "Failed to fetch profile");
+        }
+      };
+      fetchProfile();
     }
-  };
-  fetchProfile();
-}, [user]);
+  }, [user]);
 
   if (!profile) return <p className="text-center mt-10">Loading...</p>;
 

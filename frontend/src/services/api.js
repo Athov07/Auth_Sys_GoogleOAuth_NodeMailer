@@ -37,14 +37,14 @@ const authService = {
     return await API.post("/auth/register", { name, email, password, otp });
   },
 
-  // FORGOT PASSWORD → sends OTP
+  // FORGOT PASSWORD
   forgotPassword: async (email) => {
     return await API.post("/auth/forgot-password", { email });
   },
 
   // RESET PASSWORD
-  resetPassword: async (email, password) => {
-    return await API.post("/auth/reset-password", { email, password });
+  resetPassword: async (email, otp, newPassword) => {
+    return await API.post("/auth/reset-password", { email, otp, newPassword });
   },
 
   // GET PROFILE
@@ -58,10 +58,8 @@ const authService = {
   },
 
 // LOGOUT
-logout: async () => {
-  const refreshToken = localStorage.getItem("refreshToken");
-  if (!refreshToken) throw new Error("No refresh token found");
-
+logout: async (refreshToken) => {
+  // send refreshToken in request body
   return await API.post("/auth/logout", { token: refreshToken });
 },
 
