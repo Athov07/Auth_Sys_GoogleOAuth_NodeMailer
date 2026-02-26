@@ -16,47 +16,48 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-const handleLogin = async (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  setError("");
+    setError("");
 
-  if (!email || !password) {
-    return setError("All fields are required");
-  }
-
-  try {
-    setLoading(true);
-
-    const res = await authService.login(email, password);
-
-    // Safely extract user, accessToken, and refreshToken
-    const user = res.data.user || res.data?.data?.user;
-    const accessToken = res.data.accessToken || res.data?.data?.accessToken;
-    const refreshToken = res.data.refreshToken || res.data?.data?.refreshToken;
-
-    if (!user || !accessToken || !refreshToken) {
-      throw new Error(res.data?.message || "Invalid response from server");
+    if (!email || !password) {
+      return setError("All fields are required");
     }
 
-    // Save in AuthContext + localStorage
-    login(user, accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+    try {
+      setLoading(true);
 
-    navigate("/profile"); // redirect after login
-  } catch (err) {
-    setError(err.response?.data?.message || err.message || "Login failed");
-  } finally {
-    setLoading(false);
-  }
-};
+      const res = await authService.login(email, password);
+
+      // Safely extract user, accessToken, and refreshToken
+      const user = res.data.user || res.data?.data?.user;
+      const accessToken = res.data.accessToken || res.data?.data?.accessToken;
+      const refreshToken =
+        res.data.refreshToken || res.data?.data?.refreshToken;
+
+      if (!user || !accessToken || !refreshToken) {
+        throw new Error(res.data?.message || "Invalid response from server");
+      }
+
+      // Save in AuthContext + localStorage
+      login(user, accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      navigate("/profile"); // redirect after login
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // ==============================
   // GOOGLE LOGIN
-    // ==============================
-    const handleGoogleLogin = () => {
-      authService.googleLogin();
-    };
+  // ==============================
+  const handleGoogleLogin = () => {
+    authService.googleLogin();
+  };
 
   return (
     <div className="flex items-center justify-center bg-bg pt-10 ">
@@ -81,7 +82,10 @@ const handleLogin = async (e) => {
             className="mb-2"
           />
           <div className="text-right mb-4">
-            <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+            <Link
+              to="/forgot-password"
+              className="text-sm text-primary hover:underline"
+            >
               Forgot Password?
             </Link>
           </div>
@@ -93,11 +97,18 @@ const handleLogin = async (e) => {
         <div className="my-4 text-center text-gray-500">OR</div>
 
         <Button
-                  onClick={handleGoogleLogin}
-                  className="w-full bg-gray-600 hover:bg-gray-400 text-white flex items-center justify-center gap-3"
-                > <img width="28" height="26" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/>
-                    Continue with Google
-                </Button>
+          onClick={handleGoogleLogin}
+          className="w-full bg-gray-600 hover:bg-gray-400 text-white flex items-center justify-center gap-3"
+        >
+          {" "}
+          <img
+            width="28"
+            height="26"
+            src="https://img.icons8.com/color/48/google-logo.png"
+            alt="google-logo"
+          />
+          Continue with Google
+        </Button>
       </Card>
     </div>
   );

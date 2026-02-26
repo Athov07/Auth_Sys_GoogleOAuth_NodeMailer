@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import React, { useContext, setUser } from "react";
 
@@ -15,8 +20,6 @@ import DashboardPage from "./pages/DashboardPage";
 import OAuthSuccess from "./pages/OAuthSuccess";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
-
-
 function App() {
   const { user } = useContext(AuthContext);
 
@@ -24,7 +27,6 @@ function App() {
     <Router>
       <AuthLayout>
         <Routes>
-
           {/* Default Route */}
           <Route path="/" element={<Navigate to="/login" />} />
 
@@ -41,7 +43,9 @@ function App() {
 
           <Route
             path="/verify-otp"
-            element={!user ? <OTPVerificationPage /> : <Navigate to="/profile" />}
+            element={
+              !user ? <OTPVerificationPage /> : <Navigate to="/profile" />
+            }
           />
 
           <Route
@@ -58,18 +62,20 @@ function App() {
           <Route
             path="/profile"
             element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-           }
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/dashboard"
             element={
-              user && user.role === "admin"
-                ? <DashboardPage />
-                : <Navigate to="/profile" />
+              user && user.role === "admin" ? (
+                <DashboardPage />
+              ) : (
+                <Navigate to="/profile" />
+              )
             }
           />
 
@@ -82,8 +88,6 @@ function App() {
 
           {/* Fallback Route */}
           <Route path="*" element={<Navigate to="/login" />} />
-          
-
         </Routes>
       </AuthLayout>
     </Router>

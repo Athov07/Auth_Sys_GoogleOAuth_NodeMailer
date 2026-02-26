@@ -19,7 +19,7 @@ export default function ForgotPasswordPage() {
     if (!email) return setError("Email is required");
 
     try {
-      // ✅ Use authService function
+      // Use authService function
       const res = await authService.forgotPassword(email);
       setMessage(res.data.message);
 

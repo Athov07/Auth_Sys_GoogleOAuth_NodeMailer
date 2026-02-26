@@ -2,7 +2,11 @@ import cloudinary from "../config/cloudinary.js";
 import User from "../models/User.js";
 import streamifier from "streamifier";
 
+
+// =========================================
 // Upload Profile Image
+// =========================================
+
 export const uploadProfileImage = async (req, res, next) => {
   try {
     if (!req.file) {

@@ -20,7 +20,7 @@ const handleLogout = async () => {
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md px-6 py-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold text-blue-500">MERN Auth App</h1>
+      <h1 className="text-xl font-bold text-blue-500">Authentication</h1>
       <div>
         {user ? (
           <>

@@ -8,7 +8,7 @@ import CustomError from "../utils/customError.js";
 
 
 // =========================================
-// 1️⃣ SEND OTP (for registration)
+// END OTP (for registration)
 // =========================================
 export const sendOtp = async (req, res, next) => {
   try {
@@ -46,7 +46,7 @@ export const sendOtp = async (req, res, next) => {
 
 
 // =========================================
-// 2️⃣ RESEND OTP
+// RESEND OTP
 // =========================================
 export const resendOtp = async (req, res, next) => {
   try {
@@ -79,7 +79,7 @@ export const resendOtp = async (req, res, next) => {
 
 
 // =========================================
-// 3️⃣ REGISTER WITH OTP
+// REGISTER WITH OTP
 // =========================================
 export const register = async (req, res, next) => {
   try {
@@ -136,7 +136,7 @@ export const register = async (req, res, next) => {
 
 
 // =========================================
-// 4️⃣ LOGIN
+// LOGIN
 // =========================================
 export const login = async (req, res, next) => {
   try {
@@ -180,7 +180,7 @@ export const login = async (req, res, next) => {
 
 
 // =========================================
-// 5️⃣ REFRESH TOKEN
+// REFRESH TOKEN
 // =========================================
 export const refreshToken = async (req, res, next) => {
   try {
@@ -214,7 +214,7 @@ export const refreshToken = async (req, res, next) => {
 
 
 // =========================================
-// 6️⃣ FORGOT PASSWORD (SEND OTP)
+// FORGOT PASSWORD (SEND OTP)
 // =========================================
 export const forgotPassword = async (req, res, next) => {
   try {
@@ -252,7 +252,7 @@ export const forgotPassword = async (req, res, next) => {
 
 
 // =========================================
-// 7️⃣ RESET PASSWORD
+// RESET PASSWORD
 // =========================================
 export const resetPassword = async (req, res, next) => {
   try {
@@ -299,7 +299,7 @@ export const resetPassword = async (req, res, next) => {
 
 
 // =========================================
-// 8️⃣ LOGOUT (CLEAR REFRESH TOKEN)
+// LOGOUT (CLEAR REFRESH TOKEN)
 // =========================================
 export const logout = async (req, res, next) => {
   try {

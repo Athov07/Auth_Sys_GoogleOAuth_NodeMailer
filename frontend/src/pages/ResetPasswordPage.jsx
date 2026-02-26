@@ -17,41 +17,41 @@ export default function ResetPasswordPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-const handleResetPassword = async () => {
-  setError("");
-  setMessage("");
+  const handleResetPassword = async () => {
+    setError("");
+    setMessage("");
 
-  if (!otp || !password || !confirmPassword) {
-    return setError("All fields are required");
-  }
+    if (!otp || !password || !confirmPassword) {
+      return setError("All fields are required");
+    }
 
-  if (password !== confirmPassword) {
-    return setError("Passwords do not match");
-  }
+    if (password !== confirmPassword) {
+      return setError("Passwords do not match");
+    }
 
-  // ✅ Password validation regex
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    // Password validation regex
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  if (!passwordRegex.test(password)) {
-    return setError(
-      "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
-    );
-  }
+    if (!passwordRegex.test(password)) {
+      return setError(
+        "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.",
+      );
+    }
 
-  try {
-    // Use authService function
-    await authService.resetPassword(email, otp, password);
-    setMessage("Password reset successfully! Redirecting to login...");
+    try {
+      // Use authService function
+      await authService.resetPassword(email, otp, password);
+      setMessage("Password reset successfully! Redirecting to login...");
 
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
-  } catch (err) {
-    console.log("Error:", err);
-    setError(err.response?.data?.message || "Failed to reset password");
-  }
-};
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (err) {
+      console.log("Error:", err);
+      setError(err.response?.data?.message || "Failed to reset password");
+    }
+  };
 
   return (
     <div className="flex items-center justify-center pt-20 bg-gray-100">

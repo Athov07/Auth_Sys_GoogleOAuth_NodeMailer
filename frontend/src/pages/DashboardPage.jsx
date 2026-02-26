@@ -5,7 +5,11 @@ export default function DashboardPage() {
   const { user } = useContext(AuthContext);
 
   if (user.role !== "admin") {
-    return <p className="text-center text-danger mt-10">Access Denied: Admins only</p>;
+    return (
+      <p className="text-center text-danger mt-10">
+        Access Denied: Admins only
+      </p>
+    );
   }
 
   return (
