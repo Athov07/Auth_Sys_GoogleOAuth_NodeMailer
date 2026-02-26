@@ -5,6 +5,7 @@ import Otp from "../models/Otp.js";
 import { sendOtpEmail } from "../utils/sendEmail.js";
 import { generateTokens } from "../utils/generateTokens.js";
 import CustomError from "../utils/customError.js";
+import AuditLog from "../models/AuditLog.js";
 
 
 // =========================================
@@ -306,6 +307,16 @@ export const logout = async (req, res, next) => {
     const { token } = req.body;
 
     if (!token) {
+      await AuditLog.create({
+        action: "LOGOUT_FAILED",
+        module: "AUTH",
+        severity: "WARN",
+        route: req.originalUrl,
+        method: req.method,
+        ipAddress: req.ip,
+        userAgent: req.headers["user-agent"],
+      });
+
       throw new CustomError("Refresh token required", 400);
     }
 
@@ -316,13 +327,39 @@ export const logout = async (req, res, next) => {
     if (user) {
       user.refreshToken = null;
       await user.save();
+
+      // Successful Logout Log
+      await AuditLog.create({
+        user: user._id,
+        action: "LOGOUT_SUCCESS",
+        module: "AUTH",
+        severity: "INFO",
+        route: req.originalUrl,
+        method: req.method,
+        statusCode: 200,
+        ipAddress: req.ip,
+        userAgent: req.headers["user-agent"],
+      });
     }
 
     res.status(200).json({
       success: true,
       message: "Logged out successfully",
     });
+
   } catch (error) {
+
+    // Log Invalid Token or Error
+    await AuditLog.create({
+      action: "LOGOUT_ERROR",
+      module: "AUTH",
+      severity: "ERROR",
+      route: req.originalUrl,
+      method: req.method,
+      ipAddress: req.ip,
+      userAgent: req.headers["user-agent"],
+    });
+
     next(error);
   }
 };
