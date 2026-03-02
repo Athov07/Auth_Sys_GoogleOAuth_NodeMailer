@@ -141,8 +141,8 @@ const validateRegister = () => {
   };
 
   return (
-    <div className="flex items-center justify-center pt-20 bg-gray-100">
-      <Card className="w-full max-w-md p-6 ">
+    <div className="flex items-center justify-center py-20 bg-bg">
+      <Card className="w-full max-w-md pt-6">
         <h1 className="text-2xl font-bold text-center mb-4">Register</h1>
 
         {error && <Alert type="error" message={error} />}
@@ -231,12 +231,12 @@ const validateRegister = () => {
           OR
         </div>
 
-        <Button
+        <button
           onClick={handleGoogleLogin}
-          className="w-full bg-gray-600 hover:bg-gray-400 text-white flex items-center justify-center gap-3"
+          className="w-full bg-gray-600 hover:bg-gray-400 text-white flex items-center justify-center gap-3 py-2 rounded-lg"
         > <img width="28" height="26" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/>
           Continue with Google
-        </Button>
+        </button>
       </Card>
     </div>
   );

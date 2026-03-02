@@ -96,9 +96,9 @@ export default function LoginPage() {
 
         <div className="my-4 text-center text-gray-500">OR</div>
 
-        <Button
+        <button
           onClick={handleGoogleLogin}
-          className="w-full bg-gray-600 hover:bg-gray-400 text-white flex items-center justify-center gap-3"
+          className="w-full bg-gray-600 hover:bg-gray-400 text-white flex items-center justify-center gap-3 py-2 rounded-lg"
         >
           {" "}
           <img
@@ -108,7 +108,7 @@ export default function LoginPage() {
             alt="google-logo"
           />
           Continue with Google
-        </Button>
+        </button>
       </Card>
     </div>
   );
